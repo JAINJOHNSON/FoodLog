@@ -1,0 +1,33 @@
+
+# creating user ------------------------------------------------------
+###
+POST http://127.0.0.1:8000/v1/food/register/
+Content-Type: application/json
+
+{
+    "username":"django",
+    "email":"django@gmail.com",
+    "password":"password@123"
+}
+
+#-------------------------------------------
+
+
+# api call for listing all food details----------------
+###
+GET  http://127.0.0.1:8000/v1/food/foodlog/
+Accept: application/json
+Authorization: Basic django:password@123
+
+#api call for posting food details-------------------------------
+###
+POST http://127.0.0.1:8000/v1/food/foodlog/
+Content-Type: application/json
+Authorization: Basic django:password@123
+
+{
+    "title":"Food",
+    "calorie":3100,
+    "meal_type":"BF",
+    "serving_size":"medium"
+}
