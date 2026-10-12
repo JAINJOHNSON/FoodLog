@@ -26,8 +26,39 @@ Content-Type: application/json
 Authorization: Basic django:password@123
 
 {
-    "title":"Food",
+    "title":"Burger",
     "calorie":3100,
-    "meal_type":"BF",
+    "meal_type":"Lunch",
     "serving_size":"medium"
 }
+
+# Delete put filter
+#---------------------------------------------
+#Api call for getting using id --------------------------------------------
+###
+GET  http://127.0.0.1:8000/v1/food/foodlog/1/
+Accept: application/json
+Authorization: Basic django:password@123
+
+#--------------------------------------------------
+#api call for updating ---------------------
+###
+PUT   http://127.0.0.1:8000/v1/food/foodlog/1/
+Content-Type:  application/json
+Authorization: Basic django:password@123
+
+ {
+    
+    "title": "Burger",
+    "calorie": 3900,
+    "meal_type": "Lunch",
+    "serving_size": "medium",
+    "created_at": "2026-10-12T04:28:17.536983Z",
+    "owner": 1
+}
+
+#api call for delete expense ---------------------------------------
+###
+DELETE   http://127.0.0.1:8000/v1/food/foodlog/2/
+Accept: application/json
+Authorization: Basic django:password@123

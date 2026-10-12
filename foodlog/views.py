@@ -51,3 +51,32 @@ class FoodLogListCreateView(APIView):
             return Response(data=serializer_instance.errors)
 
 
+class FoodLogRetriveUpdateDeleteView(APIView):
+    authentication_classes = [authentication.BasicAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self,request,pk):
+        instance = FoodlogModel.objects.get(id=pk)  # also can use "get_object_or_404" 
+        serializer_instance = FoodLogSerializer(instance)
+        return Response(data=serializer_instance.data)
+
+    def put(self,request,pk=None):
+        
+        instance = get_object_or_404(FoodlogModel,id=pk) 
+        form_data = request.data
+        serializer_instance = FoodLogSerializer(data=form_data,instance=instance)          
+        if serializer_instance.is_valid():
+            serializer_instance.save()
+            
+            return Response(data=serializer_instance.data)
+
+        else:
+            return Response(data=serializer_instance.errors)
+
+
+    def delete(self,request,pk=None):
+        instance = get_object_or_404(FoodlogModel,id=pk)
+        instance.delete()
+        return Response(data={"Message":"Deleted"})
+
+
