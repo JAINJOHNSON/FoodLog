@@ -11,6 +11,8 @@ from foodlog.models import FoodlogModel
 
 from django.contrib.auth.models import User
 
+from foodlog.permission import IsOwner
+
 
 
 class SignUpViews(APIView):
@@ -30,8 +32,10 @@ class SignUpViews(APIView):
 
 
 class FoodLogListCreateView(APIView):
-    authentication_classes = [authentication.BasicAuthentication]
+    #authentication_classes = [authentication.BasicAuthentication]
+    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+   
 
     def get(self,request):
         instance = FoodlogModel.objects.filter(owner = request.user)
@@ -52,17 +56,24 @@ class FoodLogListCreateView(APIView):
 
 
 class FoodLogRetriveUpdateDeleteView(APIView):
-    authentication_classes = [authentication.BasicAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+    #authentication_classes = [authentication.BasicAuthentication]
+    authentication_classes = [authentication.TokenAuthentication]
+    
+    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsOwner]
 
     def get(self,request,pk):
         instance = FoodlogModel.objects.get(id=pk)  # also can use "get_object_or_404" 
+        self.check_object_permissions(request,instance)  # used to check permission
         serializer_instance = FoodLogSerializer(instance)
         return Response(data=serializer_instance.data)
 
     def put(self,request,pk=None):
         
         instance = get_object_or_404(FoodlogModel,id=pk) 
+
+        self.check_object_permissions(request,instance)  # used to check permission
+
         form_data = request.data
         serializer_instance = FoodLogSerializer(data=form_data,instance=instance)          
         if serializer_instance.is_valid():
@@ -76,6 +87,7 @@ class FoodLogRetriveUpdateDeleteView(APIView):
 
     def delete(self,request,pk=None):
         instance = get_object_or_404(FoodlogModel,id=pk)
+        self.check_object_permissions(request,instance)  # used to check permission
         instance.delete()
         return Response(data={"Message":"Deleted"})
 
