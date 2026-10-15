@@ -7,6 +7,8 @@ from foodlog.views import FoodLogListCreateView,FoodLogRetriveUpdateDeleteView
 
 from rest_framework.authtoken.views import ObtainAuthToken
 
+from foodlog.views import BudgetPlanView
+
 
 
 urlpatterns = [
@@ -15,6 +17,8 @@ urlpatterns = [
     path("foodlog/<int:pk>/",FoodLogRetriveUpdateDeleteView.as_view()),
 
     path("token/",ObtainAuthToken.as_view()),
+
+    path("foodlog/monthlysummary/",BudgetPlanView.as_view()),
     
     
     

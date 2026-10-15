@@ -17,18 +17,20 @@ Content-Type: application/json
 ###
 GET  http://127.0.0.1:8000/v1/food/foodlog/
 Accept: application/json
-Authorization: Basic django:password@123
+# Authorization: Basic django1:password@123
+Authorization: Token 64feb8848f13fd04c02f7a4f8128585101400623
 
 #api call for posting food details-------------------------------
 ###
 POST http://127.0.0.1:8000/v1/food/foodlog/
 Content-Type: application/json
-Authorization: Basic django1:password@123
+# Authorization: Basic django1:password@123
+Authorization: Token 64feb8848f13fd04c02f7a4f8128585101400623
 
 {
-    "title":"pizza",
-    "calorie":2300,
-    "meal_type":"Lunch",
+    "title":"chicken",
+    "calorie":3300,
+    "meal_type":"Snacks",
     "serving_size":"medium"
 }
 
@@ -36,10 +38,10 @@ Authorization: Basic django1:password@123
 #---------------------------------------------
 #Api call for getting using id --------------------------------------------
 ###
-GET  http://127.0.0.1:8000/v1/food/foodlog/1/
+GET  http://127.0.0.1:8000/v1/food/foodlog/8/
 Accept: application/json
 # Authorization: Basic django:password@123
-Authorization: Token b3c32485f29ee7611138a481eb8162d525985252
+Authorization: Token 64feb8848f13fd04c02f7a4f8128585101400623
 
 #--------------------------------------------------
 #api call for updating ---------------------
@@ -76,6 +78,17 @@ POST http://127.0.0.1:8000/v1/food/token/
 Content-Type: application/json
 
 {
-    "username":"django",
+    "username":"django1",
     "password":"password@123"
 }
+ 
+#64feb8848f13fd04c02f7a4f8128585101400623
+
+
+
+#Api call for getting summary--------------------------------------------
+###
+GET  http://127.0.0.1:8000/v1/food/foodlog/monthlysummary/
+Accept: application/json
+# Authorization: Basic django:password@123
+Authorization: Token 64feb8848f13fd04c02f7a4f8128585101400623

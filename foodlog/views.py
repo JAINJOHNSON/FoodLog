@@ -92,3 +92,33 @@ class FoodLogRetriveUpdateDeleteView(APIView):
         return Response(data={"Message":"Deleted"})
 
 
+
+
+from django.db.models import Sum
+from datetime import datetime
+from foodlog.ai_services import getdietplan
+
+class BudgetPlanView(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self,request):
+        response_data = {"monthly_total":0}
+
+        cur_month = datetime.now().month
+        cur_year = datetime.now().year
+
+        monthly_transaction = FoodlogModel.objects.filter(owner = request.user,created_at__month=cur_month,created_at__year=cur_year)
+
+        if monthly_transaction:
+
+            monthly_total = monthly_transaction.values("calorie").aggregate(total= Sum("calorie")).get("total")
+            monthly_summary = monthly_transaction.values("meal_type").annotate(total = Sum("calorie"))
+
+            response_data["monthly_total"]=monthly_total
+            response_data["monthly_summary"]=monthly_summary
+
+            getdietplan(response_data)
+            
+
+        return Response(data= response_data)
